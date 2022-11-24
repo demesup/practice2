@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 
 public class EnglishReplace {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String content = readWholeFile("D:\\IdeaProjects\\practice2\\src\\main\\resources\\englishToRead.txt");
         try (FileWriter writer = new FileWriter("D:\\IdeaProjects\\practice2\\src\\main\\resources\\englishToWrite.txt")) {
             writer.write(content);
@@ -23,7 +23,7 @@ public class EnglishReplace {
         }
     }
 
-    public static String readWholeFile(String file) {
+    public static String readWholeFile(String file) throws IOException {
         StringBuilder builder = new StringBuilder();
         Pattern pattern = Pattern.compile("^([)(\\-A-Za-z\\s]+/)+");
         Path filePath = createPathFromFileName(file);
@@ -36,9 +36,10 @@ public class EnglishReplace {
             });
             return String.valueOf(builder);
         }
+
     }
 
-    private static Path createPathFromFileName(String path) {
+    public static Path createPathFromFileName(String path) {
         Objects.requireNonNull(path);
         return Paths.get(path);
 
@@ -48,7 +49,8 @@ public class EnglishReplace {
         try {
             return Files.lines(filePath);
         } catch (IOException e) {
-            throw new RuntimeException();
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }
